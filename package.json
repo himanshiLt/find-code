@@ -1,0 +1,32 @@
+{
+  "name": "find-code",
+  "version": "0.0.1",
+  "description": "Find code snippets in your project",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage && standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JasonEtco/find-code.git"
+  },
+  "keywords": [],
+  "author": "Jason Etcovitch <jasonetco@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JasonEtco/find-code/issues"
+  },
+  "homepage": "https://github.com/JasonEtco/find-code#readme",
+  "devDependencies": {
+    "jest": "^23.5.0",
+    "standard": "^11.0.1"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ]
+  },
+  "dependencies": {
+    "execa": "^1.0.0"
+  }
+}
