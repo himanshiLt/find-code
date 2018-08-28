@@ -17,13 +17,34 @@ const findCode = require('find-code')
 ## How it works
 
 ```js
-const foundCode = await findCode(/featuredEnabled\('.*'\)/, './lib')
+const foundCode = await findCode(/featuredEnabled\('.*'\)/, { directory: './lib' })
 console.log(foundCode)
-// => [{
+// [{
 //  file: 'my-module.js',
 //  line: 'if (user.featureEnabled('my-feature')) {',
 //  lineNumber: 2
 //  block: '// This checks if the feature is enabled\nif (user.featureEnabled('my-feature')) {\nconsole.log('Yay!')
 // }]
 ```
-Like magic!
+
+## API
+
+```js
+findCode(query, options)
+```
+
+**`query`**:
+
+The first argument can be a string or a regular expression:
+
+```js
+const foundCode = await findCode(/featuredEnabled\('.*'\)/)
+const foundCode = await findCode('const')
+```
+
+**`options`**:
+
+| Property | Default | Description |
+| :--- | :--- | :--- |
+| `directory` | `process.cwd()` | Directory to scan |
+| `exclude` | `['node_modules']` | Directories to exclude from the scan
