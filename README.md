@@ -22,6 +22,7 @@ const foundCode = await findCode(/featuredEnabled\('.*'\)/, { directory: './lib'
 console.log(foundCode)
 // [{
 //  file: 'my-module.js',
+//  path: '/Users/Jason/dev/secret-project/lib/my-module.js',
 //  line: 'if (user.featureEnabled('my-feature')) {',
 //  lineNumber: 2
 //  block: '// This checks if the feature is enabled\nif (user.featureEnabled('my-feature')) {\nconsole.log('Yay!')
