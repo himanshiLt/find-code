@@ -39,11 +39,15 @@ async function getFileBoundaries (path, line, padding = 2) {
  * Find occurences of the provided string in your files.
  * Like grep, but with more context.
  * @param {string|RegExp} query - Query string or RegEx
- * @param {string} [directory] - Directory to search in
+ * @param {Options} [options={}] - Options
  * @returns {FoundCode[]}
  */
-module.exports = async (query, directory = process.cwd()) => {
-  const exclude = ['node_modules']
+module.exports = async (query, options = {}) => {
+  const opts = {
+    directory: process.cwd(),
+    exclude: ['node_modules'],
+    ...options
+  }
 
   const isString = typeof query === 'string'
   const isRegEx = query instanceof RegExp
@@ -52,9 +56,9 @@ module.exports = async (query, directory = process.cwd()) => {
     throw new Error('The provided query must be a String or Regular Expression.')
   }
 
-  let args = [query, '-rn', directory, `--exclude-dir={${exclude.join(',')}}`]
+  let args = [query, '-rn', opts.directory, `--exclude-dir={${opts.exclude.join(',')}}`]
 
-  // If its a RegEx, make sure that it is understood as such
+  // If its a RegEx, make add the relevant flags
   if (isRegEx) {
     args = getRegExArgs(args)
   }
@@ -66,9 +70,10 @@ module.exports = async (query, directory = process.cwd()) => {
     const [path, lineNumberString, line] = result.split(':')
     const lineNumber = parseInt(lineNumberString, 10)
 
-    const file = path.replace(directory + '/', '')
-    const { start, end } = await getFileBoundaries(path, lineNumber)
+    const file = path.replace(opts.directory + '/', '')
 
+    // Get the contents of the file at the given range
+    const { start, end } = await getFileBoundaries(path, lineNumber)
     const range = `${start},${end}p`
     const { stdout: block } = await execa('sed', ['-n', range, path])
 
@@ -95,4 +100,10 @@ module.exports = async (query, directory = process.cwd()) => {
  * @typedef {Object} Range
  * @prop {number} start
  * @prop {number} end
+ */
+
+/**
+ * @typedef {Object} Options
+ * @prop {string} [directory=process.cwd()] - Directory to scan
+ * @prop {string[]} [exclude=['node_modules']] - Array of directories to ignore
  */
