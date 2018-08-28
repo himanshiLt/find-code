@@ -1,7 +1,4 @@
 const execa = require('execa')
-const fs = require('fs')
-const { promisify } = require('util')
-const readFile = promisify(fs.readFile)
 
 /**
  * Add the required cli arguments for grep to consider the RegEx
@@ -28,12 +25,12 @@ function getRegExArgs (args) {
  * @param {number} [padding=3] - Amount of lines to pad
  * @returns {Range}
  */
-async function getFileBoundaries (path, line, padding = 3) {
+async function getFileBoundaries (path, line, padding = 2) {
   const { stdout } = await execa('wc', ['-l', path])
   const total = parseInt(stdout, 10) + 1
 
-  const start = Math.max(line - padding, 0)
-  const end = Math.max(line + padding, total)
+  const start = Math.max(line - padding, 1)
+  const end = Math.min(line + padding, total)
 
   return { start, end }
 }
@@ -72,9 +69,8 @@ module.exports = async (query, directory = process.cwd()) => {
     const file = path.replace(directory + '/', '')
     const { start, end } = await getFileBoundaries(path, lineNumber)
 
-    // TODO: Find a way to read only a range of the file
-    const contents = await readFile(path, 'utf8')
-    const block = contents.split(/\r\n|\n/).slice(start, end).join('\n')
+    const range = `${start},${end}p`
+    const { stdout: block } = await execa('sed', ['-n', range, path])
 
     return {
       lineNumber,

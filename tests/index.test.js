@@ -19,7 +19,7 @@ describe('find-code', () => {
       file: 'a-file.txt',
       line: 'Wow!',
       lineNumber: 5,
-      block: 'This is amazing!\n\nWow!\n'
+      block: 'This is amazing!\n\nWow!'
     }])
   })
 
@@ -31,12 +31,12 @@ describe('find-code', () => {
       file: 'a-file.txt',
       line: 'Wow!',
       lineNumber: 5,
-      block: 'This is amazing!\n\nWow!\n'
+      block: 'This is amazing!\n\nWow!'
     }, {
       file: 'another-file.txt',
       line: 'Wow!',
       lineNumber: 5,
-      block: 'This is amazing!\n\nWow!\n'
+      block: 'This is amazing!\n\nWow!'
     }])
   })
 
@@ -48,7 +48,7 @@ describe('find-code', () => {
       file: 'a-file.txt',
       line: 'Wow!',
       lineNumber: 5,
-      block: 'This is amazing!\n\nWow!\n'
+      block: 'This is amazing!\n\nWow!'
     }])
   })
 
@@ -60,7 +60,7 @@ describe('find-code', () => {
       file: 'a-file.txt',
       line: 'This is amazing!',
       lineNumber: 3,
-      block: 'Check this out!\n\nThis is amazing!\n\nWow!\n'
+      block: 'Check this out!\n\nThis is amazing!\n\nWow!'
     }])
   })
 
@@ -72,7 +72,7 @@ describe('find-code', () => {
       file: 'a-file.txt',
       line: 'Wow!',
       lineNumber: 5,
-      block: 'This is amazing!\n\nWow!\n'
+      block: 'This is amazing!\n\nWow!'
     }])
   })
 
@@ -84,7 +84,7 @@ describe('find-code', () => {
       file: 'a-file.txt',
       line: 'Check this out!',
       lineNumber: 1,
-      block: 'Check this out!\n\nThis is amazing!\n\nWow!\n'
+      block: 'Check this out!\n\nThis is amazing!'
     }])
   })
 
@@ -96,7 +96,7 @@ describe('find-code', () => {
       file: 'a-file.txt',
       line: 'Wow!',
       lineNumber: 5,
-      block: 'This is amazing!\n\nWow!\n'
+      block: 'This is amazing!\n\nWow!'
     }])
   })
 })
