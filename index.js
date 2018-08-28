@@ -22,7 +22,7 @@ function getRegExArgs (args) {
  * start and end lines of the given file.
  * @param {string} path - Path to the file
  * @param {number} line - Line number to pad from
- * @param {number} [padding=3] - Amount of lines to pad
+ * @param {number} [padding=2] - Amount of lines to pad
  * @returns {Range}
  */
 async function getFileBoundaries (path, line, padding = 2) {
@@ -81,7 +81,8 @@ module.exports = async (query, options = {}) => {
       lineNumber,
       file,
       line,
-      block
+      block,
+      path
     }
   })
 
@@ -94,6 +95,7 @@ module.exports = async (query, options = {}) => {
  * @prop {string} line - The entire line that had a match
  * @prop {number} lineNumber - The line number that had a match
  * @prop {string} block - A block of lines surrounding the matched line
+ * @prop {string} path - Full path to the matched file
  */
 
 /**
