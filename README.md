@@ -1,3 +1,4 @@
+<h1 align="center">🔍💻</h1>
 <h3 align="center">find-code</h3>
 <p align="center">Find code snippets in your project<p>
 <p align="center"><a href="https://npmjs.com/package/find-code"><img src="https://badgen.net/npm/v/find-code" alt="NPM"></a> <a href="https://travis-ci.com/JasonEtco/find-code"><img src="https://badgen.now.sh/travis/JasonEtco/find-code" alt="Build Status"></a> <a href="https://codecov.io/gh/JasonEtco/find-code/"><img src="https://badgen.now.sh/codecov/c/github/JasonEtco/find-code" alt="Codecov"></a></p>
