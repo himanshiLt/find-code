@@ -1,6 +1,6 @@
 {
   "name": "find-code",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Find code snippets in your project",
   "main": "index.js",
   "scripts": {
