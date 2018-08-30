@@ -56,8 +56,8 @@ module.exports = async (query, options = {}) => {
     throw new Error('The provided query must be a String or Regular Expression.')
   }
 
-  const excludes = opts.exclude.map(opt => `--exclude-dir=${opt}`).join(' ')
-  let args = [query, '-rn', opts.directory, excludes]
+  const excludes = opts.exclude.map(opt => `--exclude-dir=${opt}`)
+  let args = [query, '-rn', opts.directory, ...excludes]
 
   // If its a RegEx, make add the relevant flags
   if (isRegEx) {
