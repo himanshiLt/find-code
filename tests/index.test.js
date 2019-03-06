@@ -30,7 +30,7 @@ describe('find-code', () => {
     const results = await findCode('Wow', { directory: dir })
 
     results.forEach(r => { r.path = 'path' })
-    expect(results).toEqual([{
+    expect(results).toEqual(expect.arrayContaining([{
       file: 'a-file.txt',
       line: 'Wow!',
       lineNumber: 5,
@@ -42,7 +42,7 @@ describe('find-code', () => {
       lineNumber: 5,
       block: 'This is amazing!\n\nWow!',
       path: 'path'
-    }])
+    }]))
   })
 
   it('finds code using a simple regular expression', async () => {
