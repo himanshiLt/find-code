@@ -12,8 +12,8 @@ describe('find-code', () => {
   })
 
   it('finds code in one file', async () => {
-    const dir = path.join(pathToFixtures, 'single')
-    const results = await findCode('Wow', { directory: dir })
+    const directory = path.join(pathToFixtures, 'single')
+    const results = await findCode('Wow', { directory })
 
     results.forEach(r => { r.path = 'path' })
     expect(results).toEqual([{
@@ -26,8 +26,8 @@ describe('find-code', () => {
   })
 
   it('finds code in more than one file', async () => {
-    const dir = path.join(pathToFixtures, 'multiple')
-    const results = await findCode('Wow', { directory: dir })
+    const directory = path.join(pathToFixtures, 'multiple')
+    const results = await findCode('Wow', { directory })
 
     results.forEach(r => { r.path = 'path' })
     expect(results).toEqual(expect.arrayContaining([{
@@ -46,8 +46,8 @@ describe('find-code', () => {
   })
 
   it('finds code using a simple regular expression', async () => {
-    const dir = path.join(pathToFixtures, 'single')
-    const results = await findCode(/W.*w/, { directory: dir })
+    const directory = path.join(pathToFixtures, 'single')
+    const results = await findCode(/W.*w/, { directory })
 
     results.forEach(r => { r.path = 'path' })
     expect(results).toEqual([{
@@ -60,8 +60,8 @@ describe('find-code', () => {
   })
 
   it('finds code using a case-insensitive regular expression', async () => {
-    const dir = path.join(pathToFixtures, 'single')
-    const results = await findCode(/THIS.*is.*AM[a-z]+g!/i, { directory: dir })
+    const directory = path.join(pathToFixtures, 'single')
+    const results = await findCode(/THIS.*is.*AM[a-z]+g!/i, { directory })
 
     results.forEach(r => { r.path = 'path' })
     expect(results).toEqual([{
@@ -74,8 +74,8 @@ describe('find-code', () => {
   })
 
   it('finds code using a line-starting regular expression', async () => {
-    const dir = path.join(pathToFixtures, 'single')
-    const results = await findCode(/^W/, { directory: dir })
+    const directory = path.join(pathToFixtures, 'single')
+    const results = await findCode(/^W/, { directory })
 
     results.forEach(r => { r.path = 'path' })
     expect(results).toEqual([{
@@ -88,8 +88,8 @@ describe('find-code', () => {
   })
 
   it('respects the beginning of file boundary (cannot be less than line 0)', async () => {
-    const dir = path.join(pathToFixtures, 'single')
-    const results = await findCode('Check this out!', { directory: dir })
+    const directory = path.join(pathToFixtures, 'single')
+    const results = await findCode('Check this out!', { directory })
 
     results.forEach(r => { r.path = 'path' })
     expect(results).toEqual([{
@@ -102,8 +102,22 @@ describe('find-code', () => {
   })
 
   it('respects the end of file boundary (cannot be greater than total lines)', async () => {
-    const dir = path.join(pathToFixtures, 'single')
-    const results = await findCode('Wow!', { directory: dir })
+    const directory = path.join(pathToFixtures, 'single')
+    const results = await findCode('Wow!', { directory })
+
+    results.forEach(r => { r.path = 'path' })
+    expect(results).toEqual([{
+      file: 'a-file.txt',
+      line: 'Wow!',
+      lineNumber: 5,
+      block: 'This is amazing!\n\nWow!',
+      path: 'path'
+    }])
+  })
+
+  it('works with `exclude: false`', async () => {
+    const directory = path.join(pathToFixtures, 'single')
+    const results = await findCode('Wow', { directory, exclude: false })
 
     results.forEach(r => { r.path = 'path' })
     expect(results).toEqual([{
