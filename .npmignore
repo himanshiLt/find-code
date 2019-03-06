@@ -1,5 +1,5 @@
 tests
-.travis.yml
+.github
 codecov.yml
 README.md
 .gitignore
