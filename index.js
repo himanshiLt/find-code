@@ -56,9 +56,13 @@ module.exports = async (query, options = {}) => {
     throw new Error('The provided query must be a String or Regular Expression.')
   }
 
-  let args = [query, '-rn', opts.directory, `--exclude-dir={${opts.exclude.join(',')}}`]
+  let args = [query, '-rn', opts.directory]
 
-  // If its a RegEx, make add the relevant flags
+  if (opts.exclude) {
+    opts.exclude.forEach(dir => args.push(`--exclude-dir="${dir}"`))
+  }
+
+  // If its a RegEx, add the relevant flags
   if (isRegEx) {
     args = getRegExArgs(args)
   }
@@ -107,5 +111,5 @@ module.exports = async (query, options = {}) => {
 /**
  * @typedef {Object} Options
  * @prop {string} [directory=process.cwd()] - Directory to scan
- * @prop {string[]} [exclude=['node_modules']] - Array of directories to ignore
+ * @prop {string[]|boolean} [exclude=['node_modules']] - Array of directories to ignore, or `false` to not ignore anything
  */
