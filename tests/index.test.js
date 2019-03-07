@@ -114,4 +114,19 @@ describe('find-code', () => {
       path: 'path'
     }])
   })
+
+  it('returns an empty array with no matches', async () => {
+    const dir = path.join(pathToFixtures, 'single')
+    const results = await findCode('NOTHING', { directory: dir })
+
+    results.forEach(r => { r.path = 'path' })
+    expect(results).toEqual([])
+  })
+
+  it('returns an empty array if the grep command throws', async () => {
+    const results = await findCode('Wow!', { directory: 'not-a-real-dir' })
+
+    results.forEach(r => { r.path = 'path' })
+    expect(results).toEqual([])
+  })
 })

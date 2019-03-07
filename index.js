@@ -56,37 +56,43 @@ module.exports = async (query, options = {}) => {
     throw new Error('The provided query must be a String or Regular Expression.')
   }
 
-  let args = [query, '-rn', opts.directory, `--exclude-dir={${opts.exclude.join(',')}}`]
+  const excludes = opts.exclude.map(opt => `--exclude-dir=${opt}`)
+  let args = [query, '-rn', opts.directory, ...excludes]
 
   // If its a RegEx, make add the relevant flags
   if (isRegEx) {
     args = getRegExArgs(args)
   }
 
-  const { stdout } = await execa('grep', args)
+  try {
+    const { stdout } = await execa('grep', args)
 
-  const results = stdout.toString().split('\n')
-  const formatted = results.map(async result => {
-    const [path, lineNumberString, line] = result.split(':')
-    const lineNumber = parseInt(lineNumberString, 10)
+    const results = stdout.toString().split('\n')
+    const formatted = results.map(async result => {
+      const [path, lineNumberString, line] = result.split(':')
+      const lineNumber = parseInt(lineNumberString, 10)
 
-    const file = path.replace(opts.directory + '/', '')
+      const file = path.replace(opts.directory + '/', '')
 
-    // Get the contents of the file at the given range
-    const { start, end } = await getFileBoundaries(path, lineNumber)
-    const range = `${start},${end}p`
-    const { stdout: block } = await execa('sed', ['-n', range, path])
+      // Get the contents of the file at the given range
+      const { start, end } = await getFileBoundaries(path, lineNumber)
+      const range = `${start},${end}p`
+      const { stdout: block } = await execa('sed', ['-n', range, path])
 
-    return {
-      lineNumber,
-      file,
-      line,
-      block,
-      path
-    }
-  })
+      return {
+        lineNumber,
+        file,
+        line,
+        block,
+        path
+      }
+    })
 
-  return Promise.all(formatted)
+    return Promise.all(formatted)
+  } catch (e) {
+    // Always return an empty array
+    return []
+  }
 }
 
 /**
